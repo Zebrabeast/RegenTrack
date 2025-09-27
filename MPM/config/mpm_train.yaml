@@ -1,0 +1,29 @@
+# Hydra configuration file for training
+
+train:
+  imgs: 'data/dronecrowd/train/'    # images
+  mpms: 'data/dronecrowd/drone_MPM/train/'    #the data of mpm
+  itvs: [1, 3, 5, 7, 9]                   # Multiple patterns are OK like [1, 3, 5, 7, 9]
+  epochs: 300                  # Number of epoch
+  batch_size: 16               # Batch size
+  lr: 0.0001                  # Learning rate of Adam
+
+eval:
+  imgs: 'data/dronecrowd/test/'     # None is OK. In that case, eval.rate in the training data is used for evaluation.
+  mpms: 'data/dronecrowd/drone_MPM/test/'     # None is OK
+  itvs: [1,3]                   # Multiple patterns are OK like [1, 3, 5, 7, 9]
+  rate: 0.2                   # Evaluation rate for no eval data
+
+output:
+  save: True
+  dir: 'checkpoints/'
+
+load: 'checkpoints/checkpoint.pth'    # If you use a trained model, please rewrite it.
+
+dataloader:
+  edge: 10                    # Image edge range (This area will not be cropped)
+  height: 128                 # Number of pixel of crop height
+  width: 128                  # Number of pixel of crop width
+
+info:
+  direction: parallel         # Direction type of MPM

@@ -101,11 +101,7 @@ def visualization1(samples, targets, pred, vis_dir, split_map=None):
         # draw ground-truth points (red)
         size = 2
         for t in gts[idx]:
-            # sample_vis = cv2.circle(sample_vis, (int(t[1]), int(t[0])), size, (0, 0, 255), -1)
-            # 2024.11.21改：
-            # if len(t) >= 2:  # Ensure there are at least two elements for indexing
-            #     sample_vis = cv2.circle(sample_vis, (int(t[1]), int(t[0])), size, (0, 0, 255), -1)
-            # 还是报错，2024.11.22改：
+
             if isinstance(t, torch.Tensor) and t.dim() >= 1 and len(t) >= 2:
                 sample_vis = cv2.circle(sample_vis, (int(t[1]), int(t[0])), size, (0, 0, 255), -1)
 
@@ -114,15 +110,7 @@ def visualization1(samples, targets, pred, vis_dir, split_map=None):
         pred_positions = []  # Store prediction positions for saving to txt file
         # draw predictions (green)
         for p in pred[idx]:
-            # sample_vis = cv2.circle(sample_vis, (int(p[1]), int(p[0])), size, (0, 255, 0), -1)
-            # pred_positions.append([person_id, int(p[1]), int(p[0])])
-            # person_id +=1
-            # 2024.11.21改：
-            # if len(p) >= 2:  # Ensure there are at least two elements for indexing
-            #     sample_vis = cv2.circle(sample_vis, (int(p[1]), int(p[0])), size, (0, 255, 0), -1)
-            #     pred_positions.append([person_id, int(p[1]), int(p[0])])
-            #     person_id += 1
-            # 还是报错，2024.11.22改：
+    
             if isinstance(p, torch.Tensor) and p.dim() >= 1 and len(p) >= 2:
                 sample_vis = cv2.circle(sample_vis, (int(p[1]), int(p[0])), size, (0, 255, 0), -1)
                 pred_positions.append([person_id, int(p[1]), int(p[0])])
@@ -217,86 +205,45 @@ def train_one_epoch(model: torch.nn.Module, criterion: torch.nn.Module,
     print("Averaged stats:", metric_logger)
     return {k: meter.global_avg for k, meter in metric_logger.meters.items()}
 
-
-# 2024.11.21改：希望可以使用nms改善多个坐标给一个人的情况：
-# def nms(points, scores, dist_thresh):
-#     # 确定当前设备（CPU或GPU）
-#     device = points.device if isinstance(points, torch.Tensor) else torch.device("cuda" if torch.cuda.is_available() else "cpu")
-#
-#     # 确保点的坐标和得分是张量并移动到相同的设备
-#     points = torch.tensor(points, dtype=torch.float32, device=device)
-#     scores = torch.tensor(scores, dtype=torch.float32, device=device)
-#
-#     # 检查点的数量
-#     if points.shape[0] == 0:
-#         return torch.empty((0, 2), dtype=torch.float32, device=device)
-#
-#     # 按置信度排序点的索引
-#     sorted_indices = torch.argsort(scores, descending=True).to(device)
-#
-#     # 初始化一个列表来保存最终保留下来的点的索引
-#     keep_indices = []
-#
-#     while sorted_indices.numel() > 0:
-#         # 选择当前置信度最高的点
-#         current_index = sorted_indices[0]
-#         keep_indices.append(current_index)
-#
-#         # 获取当前保留点的坐标
-#         current_point = points[current_index]
-#
-#         # 计算与当前点之间的距离（只计算剩余点）
-#         remaining_points = points[sorted_indices]
-#         distances = torch.cdist(current_point.view(1, -1), remaining_points).squeeze(0)
-#
-#         # 找到距离大于阈值的点的索引
-#         mask = distances > dist_thresh
-#         sorted_indices = sorted_indices[mask]
-#
-#     # 返回保留下来的点的坐标
-#     return points[keep_indices]
-# 代码报错，2024.11.22修改：
 def nms(points, scores, dist_thresh):
-    # 确定当前设备（CPU或GPU）
+
     device = points.device if isinstance(points, torch.Tensor) else torch.device(
         "cuda" if torch.cuda.is_available() else "cpu")
 
-    # 确保点的坐标和得分是张量并移动到相同的设备
     points = torch.tensor(points, dtype=torch.float32, device=device)
     scores = torch.tensor(scores, dtype=torch.float32, device=device)
 
     if scores.size(0) == 1:
         return points
-    # 检查点的数量
+
     if points.shape[0] == 0:
         return torch.empty((0, 2), dtype=torch.float32, device=device)
 
-    # 按置信度排序点的索引
     sorted_indices = torch.argsort(scores, descending=True).to(device)
 
-    # 初始化一个列表来保存最终保留下来的点的索引
+
     keep_indices = []
 
     while sorted_indices.numel() > 0:
-        # 选择当前置信度最高的点
+
         current_index = sorted_indices[0]
         keep_indices.append(current_index)
 
-        # 获取当前保留点的坐标
+
         current_point = points[current_index]
 
-        # 获取剩余点并计算距离
+       
         remaining_points = points[sorted_indices]
         if remaining_points.shape[0] > 1:
             distances = torch.cdist(current_point.view(1, -1), remaining_points).squeeze(0)
         else:
             distances = torch.tensor([0.0], device=device)
 
-        # 找到距离大于阈值的点的索引
+       
         mask = distances > dist_thresh
         sorted_indices = sorted_indices[mask]
 
-    # 返回保留下来的点的坐标
+  
     return points[torch.tensor(keep_indices, device=device, dtype=torch.long)]
 
 

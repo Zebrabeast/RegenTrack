@@ -1,0 +1,16 @@
+# Hydra configuration file for ground-truth generation
+
+file:
+  img_path: 'data/dronecrowd/train/'                     # [frame id x y parent_id(-1 if none)]
+  txt_path: 'data/dronecrowd/anno_txt/train/'       # One of the target images
+
+path:
+  save_path: 'data/dronecrowd/drone_MPM/train/'           # Create directory for each interval
+
+param:
+  z_value: 5                                    # z-axis unit (pixel)
+  sigma: 6                                      # sigma of gaussian filter
+  itvs: [5, 7, 9]                         # MPM intervals (list), e.g. [1], [3, 5], [1, 2, 3], ... 
+
+direction: 'parallel'
+# direction: 'peak'

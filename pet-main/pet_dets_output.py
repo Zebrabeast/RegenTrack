@@ -148,7 +148,6 @@ def visualization(samples, pred, vis_dir, img_path, split_map=None):
 def nms(points, scores, dist_thresh):
    
     device = points.device if isinstance(points, torch.Tensor) else torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    
     points = torch.tensor(points, dtype=torch.float32, device=device)
     if not isinstance(scores, torch.Tensor):
         scores = torch.tensor(scores, dtype=torch.float32, device=device)
@@ -179,8 +178,6 @@ def nms(points, scores, dist_thresh):
             distances = torch.cdist(current_point.view(1, -1), remaining_points).squeeze(0)
         else:
             distances = torch.tensor([0.0], device=device)
-
-        
         mask = distances > dist_thresh
         sorted_indices = sorted_indices[mask]
 
@@ -483,18 +480,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('PET batch evaluation script', parents=[get_args_parser()])
     parser.add_argument('--root_dir', type=str, default='/home/data_SSD/zk/dataset/test_data', 
                         help="Root folder containing multiple video sequences (each as a folder)")
-    parser.add_argument('--output_root', type=str, default='/home/data_SSD/zk/pet_outputs/Threshold_set/threshold_4', 
+    parser.add_argument('--output_root', type=str, default='/home/data_SSD/zk/pet_outputs/Threshold_set', 
                         help="Output folder to store visual results per sequence")
     args = parser.parse_args()
     main(args)
-
-# if __name__ == '__main__':
-#     parser = argparse.ArgumentParser('PET batch evaluation script', parents=[get_args_parser()])
-#     parser.add_argument('--root_dir', type=str, default='/home/data_SSD/zk/MOT17/test', 
-#                         help="Root folder containing multiple video sequences (each as a folder)")
-#     parser.add_argument('--output_root', type=str, default='/home/data_SSD/zk/pet_outputs/MOT17', 
-#                         help="Output folder to store visual results per sequence")
-#  
-#     parser.add_argument('--resume', default='weight_MOT17_20/MOT17/pet_model_mot17/best_checkpoint.pth', help='resume from checkpoint')
-#     args = parser.parse_args()
-#     main(args)

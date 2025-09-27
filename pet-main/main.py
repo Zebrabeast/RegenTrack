@@ -123,11 +123,9 @@ def main(args):
 
     # build dataset
     dataset_train = build_dataset(image_set='train', args=args)
-    # # 设置验证集比例（例如 20%）   存在问题，换方法
     # val_ratio = 0.2
     # n_val = int(len(dataset_train_total) * val_ratio)
     # n_train = len(dataset_train_total) - n_val
-    # # 随机划分
     # dataset_train, dataset_val = random_split(dataset_train_total, [n_train, n_val])
     dataset_val = build_dataset(image_set='val', args=args)
 
@@ -161,7 +159,7 @@ def main(args):
     best_mae, best_epoch = 1e8, 900
     if args.resume:
         if args.resume.startswith('https'):
-            checkpoint = torch.hub.load_state_dict_from_url(#此处改为cuda还未改
+            checkpoint = torch.hub.load_state_dict_from_url(
                 args.resume, map_location='cuda', check_hash=True)
         else:
             checkpoint = torch.load(args.resume, map_location='cuda')
