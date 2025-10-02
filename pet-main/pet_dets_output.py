@@ -462,12 +462,10 @@ def main(args):
 
     for seq_dir in sequence_dirs:
         seq_name = os.path.basename(seq_dir)
-        if not seq_name.endswith("DPM"): 
-            continue  
         output_dir = os.path.join(args.output_root, seq_name)
         os.makedirs(output_dir, exist_ok=True)
-        #  origin_dir = os.path.join(seq_dir, "origin")
-        origin_dir = os.path.join(seq_dir, "img1")
+        origin_dir = os.path.join(seq_dir, "origin")
+        # origin_dir = os.path.join(seq_dir, "img1")
         
         print(f"\n==> Start processing sequence: {seq_name}")
         try:
@@ -478,9 +476,11 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('PET batch evaluation script', parents=[get_args_parser()])
-    parser.add_argument('--root_dir', type=str, default='/home/data_SSD/zk/dataset/test_data', 
+    parser.add_argument('--root_dir', type=str, default='/home/zk/data_SSD/zk/test_data', 
                         help="Root folder containing multiple video sequences (each as a folder)")
-    parser.add_argument('--output_root', type=str, default='/home/data_SSD/zk/pet_outputs/Threshold_set', 
+    parser.add_argument('--output_root', type=str, default='/home/zk/data_SSD/zk/pet_outputs/test_data', 
                         help="Output folder to store visual results per sequence")
+    parser.add_argument('--resume',default='DroneCrowd_weight/best_checkpoint.pth', 
+                        help="the weight of  pet model")
     args = parser.parse_args()
     main(args)
