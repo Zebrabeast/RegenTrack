@@ -18,7 +18,7 @@ import pickle
 from tqdm import tqdm
 from knn import KNN
 from feature_extractor import ReIDFeatureExtractor
-from diffusion import Diffusion
+from diffusion_modify_GPU import Diffusion
 
 Candidate_pool = {}    
 can_traj = 0           
@@ -73,13 +73,11 @@ class Trajectory:
         self.predicted_coordinate = pred_coord
 
     def get_weighted_feature(self):
-        """计算加权平均特征"""
         weights = np.array([self.decay ** i for i in range(len(self.features))][::-1])  # Decreasing weights
         weights /= np.sum(weights)  
         return np.sum(np.array(self.features) * weights[:, None], axis=0)
 
     def get_position(self):
-        """返回当前和预测坐标"""
         return {
             "current": self.current_coordinate,
             "predicted": self.predicted_coordinate
@@ -154,7 +152,7 @@ def clean_candidate_pool(candidate_pool, current_frame,
             to_remove.append(obj_id)
         elif traj.hits >= min_confirm_hits:
             to_remove.append(obj_id)
-    print("已经删除了的候选池的数量",len(to_remove))
+    print("the num of deleted candidate_traj",len(to_remove))
     for obj_id in to_remove:
         del candidate_pool[obj_id]
 
@@ -221,7 +219,7 @@ def mpm_track(seq_dir, save_dir, model, tkr,sigma=3):
     
     # Build ReID to extract features
     reid_extractor = ReIDFeatureExtractor(batch_size=16, crop_size=10)
-    fused_pos_dir = os.path.join(seq_dir,"noNMS","fused_txt_nonms")
+    fused_pos_dir = os.path.join(seq_dir,"noNMS","fused_txt_nonms")# detection_path
     
     res = []
     traj_id = 0
@@ -368,7 +366,7 @@ def level_match(track_indices, detection_one_indices,trks, dets_one, depth, tkr,
     unmatched_trks_one = track_indices
     unmatched_dets_one = detection_one_indices
     
-    print("---------------第二次匹配----------------")
+    print("---------------the first matched progress----------------")
     matched_second, unmatched_trks_second, unmatched_dets_second = second_associate(trks, dets_one, unmatched_trks_one,
                                                                                     unmatched_dets_one, tkr, mag)
 
@@ -587,18 +585,18 @@ if __name__ == '__main__':
     
     start_time = time.time()  
     args = parse_args()
-    model_path='DroneCrowd_weight/model_best.pth'
+    model_path='DroneCrowd_weight/model_best.pth' #the mpm model weight
     tkr = trackp(mag_th=0.3,itp=5,sigma=3,maxv=255,image_size=(1080, 1920))  
 
     model = tkr.loadModel(model_path)
     over_seq = ["00070"]
-    root_dir = "/home/data_SSD/zk/dataset/test_data"
+    root_dir = "/home/data_SSD/zk/dataset/test_data" #  image path
    
     sequence_dirs = sorted([
         os.path.join(root_dir, d) for d in os.listdir(root_dir)
         if os.path.isdir(os.path.join(root_dir, d))
     ])
-    output_dir = "/home/data_SSD/zk/result_test/integrated_result_test"
+    output_dir = "/home/data_SSD/zk/result_test/integrated_result_test" #output path
     os.makedirs(output_dir, exist_ok=True)
     for seq_dir in sequence_dirs:
         seq_name = os.path.basename(seq_dir)
