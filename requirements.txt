@@ -1,0 +1,43 @@
+# ============ Core ML/CV Frameworks ============
+torch==2.1.1
+torchvision==0.16.1
+torchaudio==2.1.1
+transformers==4.26.1
+timm==0.4.12
+fairscale==0.4.4
+triton==2.1.0
+
+# ============ Salesforce LAVIS ============
+salesforce-lavis==1.0.2
+decord==0.6.0
+einops==0.8.1
+webdataset==0.2.100
+iopath==0.1.10
+omegaconf==2.3.0
+
+# ============ Vector Search ============
+faiss-cpu==1.9.0
+
+# ============ Vision & Image Processing ============
+opencv-python==4.8.1.78
+scikit-image==0.24.0
+
+# ============ NLP ============
+spacy==3.6.1
+
+# ============ ML Tools ============
+scikit-learn==1.6.1
+numba==0.60.0
+
+# ============ HuggingFace ============
+huggingface-hub==0.35.3
+tokenizers==0.13.3
+sentencepiece==0.2.1
+
+# ============ COCO Evaluation ============
+pycocotools==2.0.10
+pycocoevalcap==1.2
+
+# ============ Utilities ============
+tqdm==4.67.1
+ftfy==6.3.1

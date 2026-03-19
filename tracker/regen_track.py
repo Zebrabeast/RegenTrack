@@ -570,6 +570,13 @@ def parse_args():
                         type=str,
                         help="""
                         Path to ground-truth
+                        """)           
+    parser.add_argument('--weight_path',
+                        type=str,
+                        default= "DroneCrowd_weight/model_best.pth",
+                        required=False,
+                        help="""
+                        Path to MPM weight
                         """)
     parser.add_argument('--dataset_path',
                         type=str,
@@ -593,7 +600,7 @@ if __name__ == '__main__':
     
     start_time = time.time()  
     args = parse_args()
-    model_path='DroneCrowd_weight/model_best.pth' #the mpm model weight
+    model_path= arg.weight_path  # the mpm model weight
     tkr = trackp(mag_th=0.3,itp=5,sigma=3,maxv=255,image_size=(1080, 1920))  
 
     model = tkr.loadModel(model_path)
