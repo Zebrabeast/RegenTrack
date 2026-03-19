@@ -478,7 +478,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser('PET batch evaluation script', parents=[get_args_parser()])
     parser.add_argument('--root_dir', type=str, default='/home/zk/data_SSD/zk/test_data', 
                         help="Root folder containing multiple video sequences (each as a folder)")
-    parser.add_argument('--output_root', type=str, default='/home/zk/data_SSD/zk/pet_outputs/test_data', 
+    parser.add_argument('--output_root', type=str, default='./pet_outputs/test_data', 
                         help="Output folder to store visual results per sequence")
     parser.add_argument('--resume',default='DroneCrowd_weight/best_checkpoint.pth', 
                         help="the weight of  pet model")
