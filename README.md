@@ -224,9 +224,7 @@ If you find the code helpful in your research or work, please cite the following
 
 ## 🙏 Acknowledgement
 
-This project is based on:
-
-A large part of the code is borrowed from [PET](https://github.com/cxliu0/PET), [MPM](https://github.com/JunyaHayashida/MPM), [diffusion](https://github.com/fyang93/diffusion). Many thanks for their wonderful work.
+This project is built upon the following works: [PET](https://github.com/cxliu0/PET), [MPM](https://github.com/JunyaHayashida/MPM), [diffusion](https://github.com/fyang93/diffusion). We are grateful to the original authors for their outstanding work.
 
 <!-- --- -->
 
