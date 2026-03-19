@@ -88,7 +88,6 @@ def track(image_names, model_path, save_dir, mag_th=0.3, itp=5, sigma=3, maxv=25
         div_tab = np.append(div_tab, add_div, axis=0)
         if len(pop_tab) > 0:
             pop_tab = np.append(pop_tab, add_pop, axis=0)
-        # 这个地方也要加一个判定：
         if len(add_not_ass) > 0:
             not_ass_tab = np.append(not_ass_tab, add_not_ass, axis=0)
         # not_ass_tab = np.append(not_ass_tab, add_not_ass, axis=0)
@@ -118,8 +117,8 @@ def track(image_names, model_path, save_dir, mag_th=0.3, itp=5, sigma=3, maxv=25
     # tkr.saveCTK(track_tab, not_ass_tab, div_tab, save_dir)
     return
 if __name__ == '__main__':
-    images_path = '/home/ly/yp/DroneCrowd/test_data/test_data/images'
-    images_list = glob(r'/home/ly/yp/DroneCrowd/test_data/test_data/images/*')
+    images_path = 'test_data/images'
+    images_list = glob(r'test_data/test_data/images/*')
     images_list.sort()
     print(images_list[0:300])
     vid_num = len(images_list)/300
