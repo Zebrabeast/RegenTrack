@@ -35,7 +35,6 @@ Compared with previous methods, our approach:
 
 ![framework](assets/frame_work.png)
 
----
 
 ## 🎨 Visualizations
 
@@ -43,11 +42,11 @@ Compared with previous methods, our approach:
 
 ![vis1](assets/compared_UAV.png)
 
-### tracking results on DroneBird and HT21
+### Tracking results on DroneBird and HT21
 
 ![vis2](assets/tracking_result.png)
 
----
+<!-- --- -->
 
 <!-- ## 📈 Progress
 
@@ -75,7 +74,7 @@ Install dependencies:
 ```bash
 pip install -r requirements.txt
 ```
----
+<!-- --- -->
 ## 📂 Dataset
 
 Download datasets:
@@ -111,7 +110,7 @@ Place data in the following directory:
 │       └── ...
 └── ...
 ```
----
+<!-- --- -->
 
 ## 🧩 Model
 
@@ -131,7 +130,7 @@ Place it in:
 │   └── ...
 ```
 
----
+<!-- --- -->
 
 ## ⚡ Quick Start
 
@@ -202,7 +201,7 @@ python train.py --dataset xxx --batch_size xx --lr xx
 - Increase batch size if GPU memory allows  
 
 
----
+<!-- --- -->
 
 ## 📖 Citation
 
@@ -221,7 +220,7 @@ If you find the code helpful in your research or work, please cite the following
 }
 ```
 
----
+<!-- --- -->
 
 ## 🙏 Acknowledgement
 
@@ -229,7 +228,7 @@ This project is based on:
 
 A large part of the code is borrowed from [PET](https://github.com/cxliu0/PET), [MPM](https://github.com/JunyaHayashida/MPM), [diffusion](https://github.com/fyang93/diffusion). Many thanks for their wonderful work.
 
----
+<!-- --- -->
 
 ## 📬 Contact
 
