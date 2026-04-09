@@ -38,7 +38,7 @@ Compared with previous methods, our approach:
 
 ## 🎨 Visualizations
 
-### Compared with UAV crowd tracking methods
+### Compared with Drone crowd tracking methods
 
 ![vis1](assets/compared_UAV.png)
 
